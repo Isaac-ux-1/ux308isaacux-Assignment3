@@ -1,53 +1,66 @@
-import React, { useRef } from 'react'; // 1. Add useRef
-import { StyleSheet, View, Text, TextInput, TouchableHighlight } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-export default function InputBar({ text, onChangeText, onSizeChange, onSendPressed }) {
-    const inputRef = useRef(null); // 2. Create the ref
-
-    return (
-        <View style={styles.inputBar}>
-            <TextInput 
-                style={styles.textBox}
-                ref={inputRef} // 3. Assign the ref correctly
-                multiline={true}
-                onChangeText={(text) => onChangeText(text)}
-                onContentSizeChange={onSizeChange}
-                value={text} 
-            />
-            <TouchableHighlight 
-                style={styles.sendButton} 
-                onPress={() => onSendPressed()}
-            >
-                <Text style={{ color: 'white' }}>Send</Text>
-            </TouchableHighlight>
-        </View>
-    );
+export default function InputBar({ text, onChangeText, onSizeChange, onSendPressed, placeholder = 'Send a message' }) {
+  return (
+    <View style={styles.wrap}>
+      <View style={styles.inputBar}>
+        <TextInput
+          style={styles.textBox}
+          multiline
+          onChangeText={onChangeText}
+          onContentSizeChange={onSizeChange}
+          value={text}
+          placeholder={placeholder}
+          placeholderTextColor="#9b8c80"
+        />
+        <TouchableOpacity style={styles.sendButton} onPress={onSendPressed} activeOpacity={0.85}>
+          <Text style={styles.sendText}>Send</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    inputBar: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingHorizontal: 5,
-        paddingVertical: 3,
-        backgroundColor: '#f9f9f9' // Optional: adds visibility
-    },
-    textBox: {
-        borderRadius: 5,
-        borderWidth: 1,
-        borderColor: 'gray',
-        flex: 1,
-        fontSize: 16,
-        paddingHorizontal: 10,
-        backgroundColor: 'white'
-    },
-    sendButton: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingLeft: 15,
-        marginLeft: 5,
-        paddingRight: 15,
-        borderRadius: 5,
-        backgroundColor: '#66db30'
-    },
+  wrap: {
+    paddingHorizontal: 12,
+    paddingTop: 8,
+    paddingBottom: 12,
+    backgroundColor: '#fff8f2',
+  },
+  inputBar: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    padding: 8,
+    borderRadius: 20,
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: '#f0d6c1',
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 2,
+  },
+  textBox: {
+    flex: 1,
+    maxHeight: 110,
+    fontSize: 16,
+    paddingHorizontal: 12,
+    paddingTop: 10,
+    paddingBottom: 10,
+    color: '#23160f',
+  },
+  sendButton: {
+    backgroundColor: '#da6b2c',
+    borderRadius: 14,
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    marginLeft: 8,
+  },
+  sendText: {
+    color: 'white',
+    fontWeight: '800',
+  },
 });
